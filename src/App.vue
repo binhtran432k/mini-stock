@@ -1,7 +1,16 @@
 <script setup lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
+import AddStock from "./components/AddStock.vue";
+import ListStock from "./components/ListStock.vue";
 </script>
 
 <template>
-  <HelloWorld msg="Mini Stock" />
+  <header class="container">
+    <hgroup>
+      <h1>Mini Stock</h1>
+    </hgroup>
+  </header>
+  <main class="container">
+    <AddStock />
+    <ListStock />
+  </main>
 </template>

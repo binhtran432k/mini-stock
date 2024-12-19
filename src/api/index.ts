@@ -1,10 +1,10 @@
 import { Hono } from "hono";
 
-import { stocks } from "./stocks";
+import { stocksApi } from "./stocks";
 
 const api = new Hono();
 
-api.route("/stocks", stocks);
+api.route("/stocks", stocksApi);
 
 api.get("*", (c) => c.notFound());
 
