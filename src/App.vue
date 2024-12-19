@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AddStock from "./components/AddStock.vue";
+import StockForm from "./components/StockForm.vue";
 import ListStock from "./components/ListStock.vue";
 </script>
 
@@ -10,7 +10,7 @@ import ListStock from "./components/ListStock.vue";
     </hgroup>
   </header>
   <main class="container">
-    <AddStock />
+    <StockForm />
     <ListStock />
   </main>
 </template>

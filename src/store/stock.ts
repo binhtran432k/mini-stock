@@ -5,10 +5,21 @@ interface DStock {
   amount: number;
 }
 
+interface DListResponse<T> {
+  status: number;
+  items?: T[];
+}
+
+interface DItemResponse<T> {
+  status: number;
+  item?: T;
+}
+
 interface StockStore {
   stocks: DStock[];
-  fetchStocks: () => Promise<DStock[]>;
-  addStock: (id: string, amount: number) => Promise<DStock>;
+  fetchStocks: () => Promise<DListResponse<DStock>>;
+  addStock: (id: string, amount: number) => Promise<DItemResponse<DStock>>;
+  deductStock: (id: string, amount: number) => Promise<DItemResponse<DStock>>;
 }
 
 export const stockStore = reactive<StockStore>({
@@ -19,14 +30,43 @@ export const stockStore = reactive<StockStore>({
 
     this.stocks = val.items;
 
-    return this.stocks;
+    return {
+      status: res.status,
+      items: val.items,
+    };
   },
   async addStock(id, amount) {
     const res = await fetch(`/api/stocks/${id}`, {
-      method: "PUT",
-      body: JSON.stringify({ amount }),
+      method: "PATCH",
+      body: JSON.stringify({ action: "add", amount }),
     });
+
+    if (!res.ok)
+      return {
+        status: res.status,
+      };
+
     const val = await res.json();
-    return val.item;
+    return {
+      status: res.status,
+      item: val.item,
+    };
+  },
+  async deductStock(id, amount) {
+    const res = await fetch(`/api/stocks/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ action: "deduct", amount }),
+    });
+
+    if (!res.ok || res.status === 204)
+      return {
+        status: res.status,
+      };
+
+    const val = await res.json();
+    return {
+      status: res.status,
+      item: val.item,
+    };
   },
 });
