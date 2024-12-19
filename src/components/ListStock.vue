@@ -7,7 +7,6 @@ onMounted(() => stockStore.fetchStocks());
 </script>
 <template>
   <section id="list-stock">
-    <h2>List Stocks</h2>
     <table>
       <thead>
         <tr>

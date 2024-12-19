@@ -1,7 +1,10 @@
 import { Hono } from "hono";
 import { z } from "zod";
 
-const Stock = z.object({ amount: z.number().min(1) });
+const Stock = z.object({
+  action: z.enum(["add", "deduct"]),
+  amount: z.number().min(1),
+});
 
 interface DStock {
   id: string;
@@ -25,19 +28,32 @@ stocksApi.get("/:id", (c) => {
   return c.json({ item: stock });
 });
 
-stocksApi.put("/:id", async (c) => {
+stocksApi.patch("/:id", async (c) => {
   const id = c.req.param("id");
 
   const json = await c.req.json();
 
-  const addStock = Stock.parse(json);
+  const reqStock = Stock.parse(json);
+  if (reqStock.action === "add") {
+    if (!state.db[id]) state.db[id] = { id, amount: 0 };
 
-  if (!state.db[id]) state.db[id] = { id, amount: 0 };
+    const stock = state.db[id];
+    stock.amount += reqStock.amount;
 
-  const stock = state.db[id];
-  stock.amount += addStock.amount;
+    return c.json({ item: stock });
+  } else if (reqStock.action === "deduct") {
+    if (!state.db[id]) return c.notFound();
 
-  return c.json(stock);
+    const stock = state.db[id];
+    stock.amount -= reqStock.amount;
+
+    if (state.db[id].amount <= 0) {
+      delete state.db[id];
+      return c.body(null, 204);
+    }
+
+    return c.json({ item: stock });
+  }
 });
 
 export { stocksApi };
