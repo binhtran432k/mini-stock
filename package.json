@@ -1,0 +1,25 @@
+{
+  "name": "mini-stock",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --mode client && vite build",
+    "preview": "wrangler dev dist-server/index.js",
+    "deploy": "bun run build && wrangler deploy dist-server/index.js"
+  },
+  "dependencies": {
+    "hono": "^4.6.14",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@hono/vite-build": "^1.2.0",
+    "@hono/vite-dev-server": "^0.17.0",
+    "@types/bun": "latest",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.3",
+    "vue": "^3.5.13",
+    "wrangler": "^3.97.0"
+  }
+}
