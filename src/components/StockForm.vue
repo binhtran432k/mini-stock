@@ -27,6 +27,16 @@ function deductStock() {
   }
 }
 
+function queryStock() {
+  if (id.value !== undefined) {
+    stockStore.queryStock(id.value).then((val) => {
+      if (val.status === 200)
+        alert(`id: ${val.item.id}\namount: ${val.item.amount}`);
+      else if (val.status === 404) alert(`'${id.value}' is not found`);
+    });
+  }
+}
+
 function handleSubmit(e: SubmitEvent) {
   e.preventDefault();
   const name = (e.submitter as HTMLInputElement).name;
@@ -35,6 +45,8 @@ function handleSubmit(e: SubmitEvent) {
       return addStock();
     case "deduct":
       return deductStock();
+    case "query":
+      return queryStock();
   }
 }
 </script>
@@ -54,6 +66,7 @@ function handleSubmit(e: SubmitEvent) {
       </fieldset>
       <input type="submit" name="add" value="Add" />
       <input type="submit" name="deduct" value="Deduct" />
+      <input type="submit" name="query" value="Query" />
     </form>
   </section>
 </template>

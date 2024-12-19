@@ -20,6 +20,7 @@ interface StockStore {
   fetchStocks: () => Promise<DListResponse<DStock>>;
   addStock: (id: string, amount: number) => Promise<DItemResponse<DStock>>;
   deductStock: (id: string, amount: number) => Promise<DItemResponse<DStock>>;
+  queryStock: (id: string) => Promise<DItemResponse<DStock>>;
 }
 
 export const stockStore = reactive<StockStore>({
@@ -59,6 +60,20 @@ export const stockStore = reactive<StockStore>({
     });
 
     if (!res.ok || res.status === 204)
+      return {
+        status: res.status,
+      };
+
+    const val = await res.json();
+    return {
+      status: res.status,
+      item: val.item,
+    };
+  },
+  async queryStock(id) {
+    const res = await fetch(`/api/stocks/${id}`);
+
+    if (!res.ok)
       return {
         status: res.status,
       };
