@@ -6,7 +6,9 @@
     "dev": "vite",
     "build": "vite build --mode client && vite build",
     "preview": "wrangler dev dist-server/index.js",
-    "deploy": "bun run build && wrangler deploy dist-server/index.js"
+    "preview:e2e": "bun --cwd e2e show-report",
+    "test:e2e": "bun --cwd e2e test",
+    "deploy": "bun run build && cp -rf e2e/cucumber-report dist/report && wrangler deploy dist-server/index.js"
   },
   "dependencies": {
     "hono": "^4.6.14",
