@@ -56,4 +56,14 @@ stocksApi.patch("/:id", async (c) => {
   }
 });
 
+stocksApi.delete("/:id", (c) => {
+  const id = c.req.param("id");
+
+  if (!state.db[id]) return c.notFound();
+
+  delete state.db[id];
+
+  return c.body(null, 204);
+});
+
 export { stocksApi };

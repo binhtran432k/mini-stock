@@ -1,0 +1,17 @@
+{
+  "name": "mini-stock-e2e",
+  "description": "E2E test for Mini Stock",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "bddgen && playwright test",
+    "show-report": "npx http-server ./cucumber-report -c-1 -o index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "@types/node": "^22.10.2",
+    "playwright-bdd": "^8.0.1"
+  }
+}

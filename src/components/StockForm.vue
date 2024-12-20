@@ -55,11 +55,18 @@ function handleSubmit(e: SubmitEvent) {
   <section id="stock">
     <form :onsubmit="handleSubmit">
       <fieldset role="group">
-        <input type="text" placeholder="Id" required v-model="id" />
+        <input
+          type="text"
+          placeholder="Id"
+          aria-label="Id"
+          required
+          v-model="id"
+        />
         <input
           type="number"
           min="1"
           placeholder="Amount"
+          aria-label="Amount"
           required
           v-model="amount"
         />
